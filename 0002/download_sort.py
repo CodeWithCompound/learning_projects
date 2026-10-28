@@ -12,6 +12,7 @@ CATEGORIES = {
     "archives": {".zip", ".tar", ".gz", ".7z"},
 }
 
+run: int = 0
 
 def category_for(suffix):
     for name, extensions in CATEGORIES.items():
@@ -46,7 +47,33 @@ def organize(folder):
 
     print(f"\nDone. {moved} file(s) moved.")
 
+def dry_run():
+    print("WIP")
+
+def choice(run: int) -> bool:
+    while True:
+        if run > 0:
+            print("Would you like to do another dry run?")
+        else:
+            print("Would you like to do a dry run?")
+
+        run =+ run
+
+        choice_raw: str = input("yes/no: ")
+        if choice_raw.lower() in ['true', '1', 't', 'y', 'yes']:
+            return True
+        elif choice_raw.lower() in ['false', '0', 'f', 'n', 'no']:
+            return False
+        else:
+            print(f"\nPlease enter yes / no. you entered {choice_raw}\n")
+            continue
+
+
 
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 else "."
-    organize(target)
+    if choice(run):
+        dry_run()
+    if not choice(run):
+        #organize(target)
+        print("currently nothing - would run organize()")
